@@ -30,7 +30,7 @@ let determineValue = function(val){
   else if(val == 'q' || val == 'Q')
     return 12
   else{
-    console.log("Unacceptable card type.")
+    return 0
   }
   return 0;
 }
@@ -137,30 +137,36 @@ let testFours = function(val, c){
 }
 
 let testForStraight = function(c){
-  let straight = true
    c.sort(function(card1, card2){
     return (card1.value - card2.value)
   })
-  for(let i=1; i<c.length; i++){
-    if(!(c[i].value -1 == c[i-1].value))
-    straight = false
-    break
+  let total = 0
+
+  for(let i=0; i<c.length; i++){
+    total = total + c[i].value
   }
-  return straight
+  if(total/5==c[2].value && c[0].value+4==c[4].value)
+    return true
+  else {
+    return false
+  }
+
 }
 
 let testForFlush = function(c){
   let type = c[0].suit
+  console.log(c)
+  console.log(type)
   let arr = c.filter(function(card){
     return card.suit == type
   })
+  console.log(arr)
   return (arr.length == c.length)
 
 }
 
 let testForRoyal = function(c){
   return (determineHighCard(c) == 14)
-
 }
 
 let determineHighCard = function(c){
@@ -276,10 +282,10 @@ if(runnable){
     if(testForStraight(cards)){
       if(testForFlush(cards)){
         if(testForRoyal(cards)){
-          console.log('Royal Flush!')
+          console.log(`Royal flush with ${determineSuit(cards[0].suit)}!`)
         }
         else{
-          console.log(`Straight flush with ${determineSuit(cards[0].suit)}`)
+          console.log(`Straight flush with ${determineSuit(cards[0].suit)}!`)
         }
       }
       else{
@@ -288,7 +294,7 @@ if(runnable){
     }
 
     else{
-      if(testForFlush){
+      if(testForFlush(cards)){
         console.log(`Flush with ${determineSuit(cards[0].suit)}`)
       }
       else{
