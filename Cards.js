@@ -155,12 +155,9 @@ let testForStraight = function(c){
 
 let testForFlush = function(c){
   let type = c[0].suit
-  console.log(c)
-  console.log(type)
   let arr = c.filter(function(card){
     return card.suit == type
   })
-  console.log(arr)
   return (arr.length == c.length)
 
 }
