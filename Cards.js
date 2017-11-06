@@ -186,7 +186,30 @@ let determineSuit = function(s){
   }
 }
 
+let testToRun = function(c){
+let run = true
+  try{
+  c.forEach(function(card){
+    if((determineSuit(card.suit)!= "Spades" && determineSuit(card.suit)!= "Hearts" &&
+    determineSuit(card.suit)!= "Clubs" && determineSuit(card.suit)!= "Diamonds") ||
+    (card.value < 2 || card.value > 14)){
+      console.log(`Invalid card: ${card.value} of suit ${card.suit}`)
+      run = false
 
+    }
+  })
+}
+catch(err){
+  console.log('Not enough cards: you must use a five card hand')
+  return false
+}
+if(c.length!=5){
+  console.log(`Invalid number of cards: ${cards.length}`)
+  run = false
+}
+return run
+
+}
 
 
 
@@ -199,6 +222,7 @@ let rl = readline.createInterface({
   output: process.stdout
 });
 
+
 rl.question('Input your hand: ', function(hand) {
 
   rl.close();
@@ -207,12 +231,15 @@ rl.question('Input your hand: ', function(hand) {
 
   let ctr = 0;
   str.forEach(function(s){
+
       cards[ctr] = new Card(s.substring(0,s.length-1), s.substring
     (s.length-1,s.length));
     ctr++;
+
   })
 
-
+  let runnable = testToRun(cards)
+if(runnable){
   let pairVal = testForPair(cards)
 
   if(pairVal!=0) {
@@ -269,5 +296,5 @@ rl.question('Input your hand: ', function(hand) {
       }
     }
   }
-
-});
+}
+})
