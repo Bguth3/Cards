@@ -73,23 +73,37 @@ let testForPair = function(c){
   }
 }
 
-let testForThrees = function(c){
-  let val = 0;
-  let counter = 0;
-  for(let i =0; i<c.length; i++){
-    counter = 0;
-    val = c[i].value
-    for(let ind=0; ind<c.length; ind++){
-
-        if(val == cards[ind].value)
-          counter++
-
-    }
-    if(counter>=3)
-      break
+let testForThrees = function(c, v){
+  let arr = c.filter(function(card){
+    return card.value != v
+  })
+  if(arr.length < 3){
+    return v
   }
-  if(counter>=3){
-  return val;
+
+  let val = arr[0].value;
+  let counter = 0;
+//   for(let i =0; i<arr.length; i++){
+//     counter = 0;
+//     val = arr[i].value
+//     for(let ind=0; ind<c.length; ind++){
+//
+//         if(val == cards[ind].value)
+//           counter++
+//
+//     }
+//     if(counter>=3)
+//       break
+//   }
+//   if(counter>=3){
+//   return val;
+// }
+  arr = arr.filter(function(card){
+    return card.value == val
+  })
+
+if(arr.length == 3){
+  return val
 }
   else {
     return 0
@@ -121,14 +135,17 @@ let testForTwoPairs = function(v, c){
 }
 
 let testFours = function(val, c){
-  let counter = 0;
-  for(let i =0; i<c.length; i++){
-    if(c[i].value = val)
-      counter++
-    if(counter>=4)
-      break
-  }
-  if(counter>=4){
+  // let counter = 0;
+  // for(let i =0; i<c.length; i++){
+  //   if(c[i].value = val)
+  //     counter++
+  //   if(counter>=4)
+  //     break
+  // }
+  let arr = c.filter(function(card){
+    return card.value != val
+  })
+  if(arr.length == 1){
   return val;
 }
   else {
@@ -246,26 +263,29 @@ if(runnable){
   let pairVal = testForPair(cards)
 
   if(pairVal!=0) {
-    let threeVal = testForThrees(cards)
-    if(threeVal!=0){
-      let twoVal = testForFullHouse(threeVal,cards)
-
-      if(twoVal!=0){
-        console.log(`Full house with three ${reverseDetermineValue(threeVal)}s and two ${reverseDetermineValue(twoVal)}s` )
+    let threeVal = testForThrees(cards,pairVal)
+    if(threeVal!= 0 && threeVal!= pairVal){
+        console.log(`Full house with three ${reverseDetermineValue(threeVal)}s and two ${reverseDetermineValue(pairVal)}s` )
       }
-      else{
+      else if(threeVal == pairVal){
+        let secondPairVal = testForFullHouse(threeVal, cards)
+          if(secondPairVal != 0){
+          console.log(`Full house with three ${reverseDetermineValue(threeVal)}s and two ${reverseDetermineValue(secondPairVal)}s` )
+        }
+          else{
         let fourVal = testFours(threeVal, cards)
-        if(fourVal!=0){
+            if(fourVal!=0){
           console.log(`Four of a kind with four ${reverseDetermineValue(fourVal)}s`)
         }
-        else
+            else{
         console.log(`Three of a kind with three ${reverseDetermineValue(threeVal)}s`)
+      }
       }
     }
     else{
-      let twoPairs = testForTwoPairs(pairVal, cards)
-      if(twoPairs!=0){
-        console.log(`Two Pairs: pair of ${reverseDetermineValue(pairVal)}s and a pair of ${reverseDetermineValue(twoPairs)}s`)
+      let secondPairVal = testForTwoPairs(pairVal, cards)
+      if(secondPairVal!=0){
+        console.log(`Two Pairs: pair of ${reverseDetermineValue(pairVal)}s and a pair of ${reverseDetermineValue(secondPairVal)}s`)
       }
       else{
         console.log(`Pair of ${reverseDetermineValue(pairVal)}s`)
@@ -295,7 +315,7 @@ if(runnable){
         console.log(`Flush with ${determineSuit(cards[0].suit)}`)
       }
       else{
-        console.log(`Your high card is ${reverseDetermineValue(determineHighCard(cards))}`)
+        console.log(`Your high card is a ${reverseDetermineValue(determineHighCard(cards))}`)
       }
     }
   }
