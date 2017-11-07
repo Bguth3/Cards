@@ -32,7 +32,6 @@ let determineValue = function(val){
   else{
     return 0
   }
-  return 0;
 }
 
 let reverseDetermineValue = function(val){
@@ -83,21 +82,6 @@ let testForThrees = function(c, v){
 
   let val = arr[0].value;
   let counter = 0;
-//   for(let i =0; i<arr.length; i++){
-//     counter = 0;
-//     val = arr[i].value
-//     for(let ind=0; ind<c.length; ind++){
-//
-//         if(val == cards[ind].value)
-//           counter++
-//
-//     }
-//     if(counter>=3)
-//       break
-//   }
-//   if(counter>=3){
-//   return val;
-// }
   arr = arr.filter(function(card){
     return card.value == val
   })
@@ -125,7 +109,6 @@ let testForTwoPairs = function(v, c){
   let arr = c.filter(function(card){
     return card.value!=v
   })
-//  console.log(arr)
   let val2 = testForPair(arr)
   if(val2 != 0)
   return val2
@@ -135,13 +118,6 @@ let testForTwoPairs = function(v, c){
 }
 
 let testFours = function(val, c){
-  // let counter = 0;
-  // for(let i =0; i<c.length; i++){
-  //   if(c[i].value = val)
-  //     counter++
-  //   if(counter>=4)
-  //     break
-  // }
   let arr = c.filter(function(card){
     return card.value != val
   })
@@ -221,7 +197,7 @@ let run = true
 }
 catch(err){
   console.log('Not enough cards: you must use a five card hand')
-  return false
+  run = false
 }
 if(c.length!=5){
   console.log(`Invalid number of cards: ${cards.length}`)
@@ -235,12 +211,12 @@ return run
 
 
 
-let readline = require('readline');
+let readline = require('readline')
 let cards = [null, null, null, null, null]
 let rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
-});
+})
 
 
 rl.question('Input your hand: ', function(hand) {
@@ -248,11 +224,9 @@ rl.question('Input your hand: ', function(hand) {
   rl.close();
   let s = hand
   let str = s.split(" ")
-
   let ctr = 0;
   str.forEach(function(s){
-
-      cards[ctr] = new Card(s.substring(0,s.length-1), s.substring
+  cards[ctr] = new Card(s.substring(0,s.length-1), s.substring
     (s.length-1,s.length));
     ctr++;
 
@@ -267,27 +241,27 @@ if(runnable){
     if(threeVal!= 0 && threeVal!= pairVal){
         console.log(`Full house with three ${reverseDetermineValue(threeVal)}s and two ${reverseDetermineValue(pairVal)}s` )
       }
-      else if(threeVal == pairVal){
+    else if(threeVal == pairVal){
         let secondPairVal = testForFullHouse(threeVal, cards)
           if(secondPairVal != 0){
           console.log(`Full house with three ${reverseDetermineValue(threeVal)}s and two ${reverseDetermineValue(secondPairVal)}s` )
         }
           else{
-        let fourVal = testFours(threeVal, cards)
+            let fourVal = testFours(threeVal, cards)
             if(fourVal!=0){
-          console.log(`Four of a kind with four ${reverseDetermineValue(fourVal)}s`)
+              console.log(`Four of a kind with four ${reverseDetermineValue(fourVal)}s`)
         }
             else{
-        console.log(`Three of a kind with three ${reverseDetermineValue(threeVal)}s`)
+              console.log(`Three of a kind with three ${reverseDetermineValue(threeVal)}s`)
       }
       }
     }
     else{
       let secondPairVal = testForTwoPairs(pairVal, cards)
-      if(secondPairVal!=0){
+        if(secondPairVal!=0){
         console.log(`Two Pairs: pair of ${reverseDetermineValue(pairVal)}s and a pair of ${reverseDetermineValue(secondPairVal)}s`)
       }
-      else{
+        else{
         console.log(`Pair of ${reverseDetermineValue(pairVal)}s`)
       }
     }
