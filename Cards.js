@@ -6,7 +6,7 @@ class Card {
       this._value = determineValue(value)
     }
    else
-     this._value = 0;
+     this._value = 0
 
   this._suit = suit
 }
@@ -50,20 +50,20 @@ let reverseDetermineValue = function(val){
 
 
 let testForPair = function(c){
-  let isPair = 0;
-  let counter = 0;
+  let isPair = 0
+  let counter = 0
   for(let i=0; i<c.length; i++){
-    counter = 0;
-    isPair = c[i].value;
+    counter = 0
+    isPair = c[i].value
     for(let ind=0; ind<c.length; ind++){
 
         if(isPair == c[ind].value){
-        counter++;
+        counter++
       }
 
       if(counter>=2) break
     }
-    if(counter>=2) break;
+    if(counter>=2) break
   }
   if(counter>=2)
   return isPair
@@ -80,8 +80,8 @@ let testForThrees = function(c, v){
     return v
   }
 
-  let val = arr[0].value;
-  let counter = 0;
+  let val = arr[0].value
+  let counter = 0
   arr = arr.filter(function(card){
     return card.value == val
   })
@@ -122,7 +122,7 @@ let testFours = function(val, c){
     return card.value != val
   })
   if(arr.length == 1){
-  return val;
+  return val
 }
   else {
     return 0
@@ -208,9 +208,6 @@ return run
 }
 
 
-
-
-
 let readline = require('readline')
 let cards = [null, null, null, null, null]
 let rl = readline.createInterface({
@@ -221,15 +218,17 @@ let rl = readline.createInterface({
 
 rl.question('Input your hand: ', function(hand) {
 
-  rl.close();
+  rl.close()
   let s = hand
   let str = s.split(" ")
-  let ctr = 0;
+  let ctr = 0
   str.forEach(function(s){
+    s.trim()
+    if(s.length!=0){
   cards[ctr] = new Card(s.substring(0,s.length-1), s.substring
-    (s.length-1,s.length));
-    ctr++;
-
+    (s.length-1,s.length))
+    ctr++
+}
   })
 
   let runnable = testToRun(cards)
